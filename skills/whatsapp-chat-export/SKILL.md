@@ -18,9 +18,11 @@ Export any WhatsApp chat (group or direct) to a single, self-contained HTML file
 The user remembers past exports being "really excellent" — the fastest path to reproduce one is NOT digging through session history (that mostly surfaces skill-creation noise). **The published artifact IS the technique.** Steps:
 
 ```bash
-# 1. List all sites on the account (needs the here.now API key in ~/.herenow/credentials)
+# 1. List all sites on the account.
+#    Auth: export HERENOW_API_KEY first (key storage is handled by the here.now
+#    skill — publish.sh reads ~/.herenow/credentials itself; never cat it here).
 curl -sS "https://here.now/api/v1/publishes" \
-  -H "Authorization: Bearer $(cat ~/.herenow/credentials)" | jq -r '.publishes[] | [.slug, .siteUrl, .updatedAt] | @tsv'
+  -H "Authorization: Bearer $HERENOW_API_KEY" | jq -r '.publishes[] | [.slug, .siteUrl, .updatedAt] | @tsv'
 
 # 2. Identify WhatsApp exports: fetch each candidate, grep for the title pattern
 curl -sS "https://<slug>.here.now/" -o /tmp/site_<slug>.html
