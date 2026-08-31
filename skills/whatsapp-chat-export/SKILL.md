@@ -79,6 +79,7 @@ Use the Welp-style template from `references/export-technique.md` (full CSS + st
 
 - **Sender names:** resolve group LIDs to real names via `whatsmeow_lid_map` → phone → `whatsmeow_contacts.full_name`/`push_name`. Real names beat the old masked-phone fallback when resolvable. One palette color per sender, consistent across the page.
 - **Mentions:** content contains raw `@<LID>` tokens — replace with `@Name` before escaping HTML.
+- **Message IDs:** every `.msg-row` gets `id="msg-<UUID5>"` (uuid5 of `wa-msg:<message_id>` — stable across rebuilds) plus `data-wa-id="<raw message id>"`. These are the annotation targets (comments/tooltips/stickies) and survive re-exports. See `references/export-technique.md`.
 - **Images:** add `max-width:100%; border-radius:4px` to `.img-msg img` — the stock template can overflow the bubble with tall/wide phone photos.
 - Reactions as emoji pills, date separators between days, 800px max-width column, footer `Updated <date> · Reactions live`.
 

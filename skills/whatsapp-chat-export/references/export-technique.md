@@ -81,7 +81,7 @@ Stats line: `N participants · N messages` + optional ` · N 🎤` (audio) ` · 
 ### Text bubble (outgoing / right / green)
 
 ```html
-<div class="msg-row msg-row-out">
+<div class="msg-row msg-row-out" id="msg-<UUID5>" data-wa-id="AC697359">
     <div class="bubble-out">
         <div class="sender-name" style="color:#E06469">Fabz</div>
         <div class="msg-content">Ok</div>
@@ -93,7 +93,7 @@ Stats line: `N participants · N messages` + optional ` · N 🎤` (audio) ` · 
 ### Text bubble (incoming / left / gray) with reaction
 
 ```html
-<div class="msg-row msg-row-in">
+<div class="msg-row msg-row-in" id="msg-<UUID5>" data-wa-id="AC5557A9">
     <div class="bubble-in">
         <div class="sender-name" style="color:#7D8CC4">Caro</div>
         <div class="msg-content">Sipi, y wi mal no rcierdo dow vabezqles</div>
@@ -124,6 +124,18 @@ Stats line: `N participants · N messages` + optional ` · N 🎤` (audio) ` · 
 ```html
 <div class="footer">Updated August 31, 2026 at 01:45 PM · Reactions live</div>
 ```
+
+## Message element IDs (for annotations)
+
+Every message row carries a stable, unique GUID so annotations (comments, tooltips, labels, stickies) can target specific bubbles and survive re-exports:
+
+```html
+<div class="msg-row msg-row-in" id="msg-<UUID5>" data-wa-id="<whatsapp_message_id>">
+```
+
+- `id` = UUID5 GUID: `uuid.uuid5(uuid.NAMESPACE_URL, "wa-msg:" + message_id)` — same message → same GUID on every rebuild, so annotation anchors stay valid.
+- `data-wa-id` = raw WhatsApp message id, for source correlation and re-annotation tooling.
+- Python: `from uuid import uuid5, NAMESPACE_URL; elid = str(uuid5(NAMESPACE_URL, f"wa-msg:{m['id']}"))`
 
 ## Conventions
 
